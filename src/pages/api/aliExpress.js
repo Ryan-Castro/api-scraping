@@ -1,16 +1,17 @@
-import Chromium from'chrome-aws-lambda';
-import puppeteer, { Page } from 'puppeteer-core'
+import edgeChromium from 'chrome-aws-lambda'
+import puppeteer from 'puppeteer-core'
 
 
 export default async function handler(req,res) {
   let result = {}
   let browser = null
+  const executablePath = await edgeChromium.executablePath || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
   if(req.query.link){
     try{
       browser = await puppeteer.launch({
-        args: Chromium.args,
-        executablePath: await Chromium.executablePath,
-        headless: Chromium.headless,
+        args: edgeChromium.args,
+        executablePath,
+        headless: edgeChromium.headless,
       });
     
       let page = await browser.newPage()
@@ -28,6 +29,7 @@ export default async function handler(req,res) {
         'diccountPrice':discount_price,
         'discountPercentage':discount_percentage,
       }
+      return res.send(result)
     }catch (error) {
         return res.send(error)
       } finally {
