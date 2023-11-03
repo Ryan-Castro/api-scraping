@@ -1,4 +1,5 @@
-const chromium = require('chrome-aws-lambda');
+import Chromium from'chrome-aws-lambda';
+import puppeteer, { Page } from 'puppeteer-core'
 
 
 export default async function handler(req,res) {
@@ -6,13 +7,12 @@ export default async function handler(req,res) {
   let browser = null
   if(req.query.link){
     try{
-      browser = await chromium.puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
+      browser = await puppeteer.launch({
+        args: Chromium.args,
+        executablePath: await Chromium.executablePath,
+        headless: Chromium.headless,
       });
+    
       let page = await browser.newPage()
       await page.goto(req.query.link)
       const src_img = await page.$eval('.slider--img--D7MJNPZ.slider--active--ffqmskh img', (img)=>{return img.src})
@@ -28,9 +28,8 @@ export default async function handler(req,res) {
         'diccountPrice':discount_price,
         'discountPercentage':discount_percentage,
       }
-      return res.send(result)
-      } catch (error) {
-        return res.send({'a': error})
+    }catch (error) {
+        return res.send(error)
       } finally {
         if (browser !== null) {
           await browser.close();
