@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer-core'
-import Chromium from 'chrome-aws-lambda';
+import Chromium from '@sparticuz/chromium';
 
 
 export default async function handler(req,res) {
@@ -9,7 +9,8 @@ export default async function handler(req,res) {
     try{
       browser = await puppeteer.launch({
         args: Chromium.args,
-        executablePath: await Chromium.executablePath,
+        defaultViewport: Chromium.defaultViewport,
+        executablePath: await Chromium.executablePath(),
         headless: Chromium.headless,
       });
     
