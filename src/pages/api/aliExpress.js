@@ -4,10 +4,8 @@ import Chromium from '@sparticuz/chromium';
 
 export default async function handler(req,res) {
   let result = {}
-  let browser = null
   if(req.query.link){
-    try{
-      browser = await puppeteer.launch({
+      let browser = await puppeteer.launch({
         args: Chromium.args,
         defaultViewport: Chromium.defaultViewport,
         executablePath: await Chromium.executablePath(),
@@ -21,7 +19,7 @@ export default async function handler(req,res) {
       const base_price = await page.$eval('.price--originalText--Zsc6sMv', (bPrice)=>{return bPrice.innerText.replace('R$', '')})
       const discount_price = await page.$$eval('.es--wrap--erdmPRe.notranslate span', (sPrices)=>{let stn = "";sPrices.map((sPrice)=>{stn += sPrice.innerText});return stn.replace("R$", "").replaceAll(" ", "")})
       const discount_percentage = await page.$eval('.price--discount--xET8qnP', (percentage)=>{return percentage.innerText.replaceAll('-', '').replaceAll('%', '')})
-      
+      await browser.close();
       result = {
         'linkImg': src_img,
         'titleProcuct':title_product,
@@ -30,13 +28,6 @@ export default async function handler(req,res) {
         'discountPercentage':discount_percentage,
       }
       return res.send(result)
-    }catch (error) {
-        return res.send(error)
-      } finally {
-        if (browser !== null) {
-          await browser.close();
-        }
-      }
     } else {
       result = {'Erro': 'Sem o link. Adicione o parametro link'}
     }
