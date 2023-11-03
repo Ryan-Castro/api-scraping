@@ -16,7 +16,7 @@ export default async function handler(req,res) {
       let page = await browser.newPage()
       await page.goto(req.query.link)
       result = await page.evaluate(()=>{
-        const src_img = document.querySelector('.slider--img--D7MJNPZ.slider--active--ffqmskh img').src
+        const src_img = document
         //const title_product = await page.$eval('.title--wrap--Ms9Zv4A h1', (title)=>{return title.innerText})
         //const base_price = await page.$eval('.price--originalText--Zsc6sMv', (bPrice)=>{return bPrice.innerText.replace('R$', '')})
         //const discount_price = await page.$$eval('.es--wrap--erdmPRe.notranslate span', (sPrices)=>{let stn = "";sPrices.map((sPrice)=>{stn += sPrice.innerText});return stn.replace("R$", "").replaceAll(" ", "")})
