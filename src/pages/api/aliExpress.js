@@ -1,10 +1,10 @@
-import puppeteer, { Page } from 'puppeteer-core'
-import chrome from 'chrome-aws-lambda'
+//import puppeteer, { Page } from 'puppeteer-core'
+//import chrome from 'chrome-aws-lambda'
 
 
 
 export default async function handler(req,res) {
-  try{
+/*   try{
     let options = {
       args: chrome.args,
       executablePath: await chrome.executablePath,
@@ -28,16 +28,16 @@ export default async function handler(req,res) {
         'diccountPrice':discount_price,
         'discountPercentage':discount_percentage,
       })
-    } else {
+    } else { */
       return res.status(200).send({'Erro': 'Sem o link. Adicione o parametro link'})
-    }
+/*     }
   } catch (error) {
     return callback(error);
   } finally {
     if (browser !== null) {
       await browser.close();
     }
-  }
+  } */
 }
 
 
