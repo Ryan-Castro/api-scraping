@@ -1,5 +1,4 @@
-import puppeteer, { Page } from 'puppeteer-core'
-import chrome from 'chrome-aws-lambda'
+import chromium from 'chrome-aws-lambda'
 
 
 
