@@ -1,17 +1,16 @@
-import edgeChromium from 'chrome-aws-lambda'
 import puppeteer from 'puppeteer-core'
+import Chromium from 'chrome-aws-lambda';
 
 
 export default async function handler(req,res) {
   let result = {}
   let browser = null
-  const executablePath = await edgeChromium.executablePath || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
   if(req.query.link){
     try{
       browser = await puppeteer.launch({
-        args: edgeChromium.args,
-        executablePath,
-        headless: edgeChromium.headless,
+        args: Chromium.args,
+        executablePath: await Chromium.executablePath,
+        headless: Chromium.headless,
       });
     
       let page = await browser.newPage()
